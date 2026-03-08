@@ -1,0 +1,94 @@
+MoviWeb App 🎬
+
+MoviWeb ist eine Flask-Webanwendung zum Verwalten von Nutzern und ihren Lieblingsfilmen.
+Filminformationen wie Titel, Regisseur, Erscheinungsjahr und Poster werden automatisch über die OMDb API abgerufen.
+
+Funktionen
+Nutzer erstellen und löschen
+Lieblingsfilme pro Nutzer speichern
+Filminformationen automatisch über die OMDb API abrufen
+Filme aktualisieren
+Filme löschen
+Filmposter anzeigen
+Fehlerseiten (404 / 500)
+Technologien
+Python
+Flask
+SQLAlchemy
+Jinja2 Templates
+OMDb API
+HTML / CSS
+
+Projektstruktur
+
+MoviWebApp/
+│
+├── app.py
+├── models.py
+├── data_manager.py
+├── .env
+│
+├── templates/
+│   ├── base.html
+│   ├── index.html
+│   ├── movies.html
+│   ├── 404.html
+│   └── 500.html
+│
+├── static/
+│   └── style.css
+│
+└── venv/
+
+Installation
+
+1. Repository klonen
+git clone <repository-url>
+cd MoviWebApp
+2. Virtuelle Umgebung erstellen
+python -m venv venv
+
+Aktivieren:
+
+Windows
+venv\Scripts\activate
+Mac / Linux
+source venv/bin/activate
+
+3. Abhängigkeiten installieren
+pip install flask flask_sqlalchemy requests python-dotenv
+OMDb API Key einrichten
+
+Die Anwendung benötigt einen OMDb API Key, um Filminformationen abzurufen.
+Erstelle eine Datei namens .env im Projektordner.
+Füge dort deinen API-Key hinzu.
+OMDB_API_KEY=dein_api_key
+Beispiel:
+OMDB_API_KEY=12345678
+Den API-Key erhältst du hier:
+https://www.omdbapi.com/apikey.aspx
+
+Anwendung starten
+
+python app.py
+Danach im Browser öffnen:
+http://127.0.0.1:5000
+
+Nutzung
+Einen neuen Nutzer erstellen
+Einen Filmtitel eingeben
+Die Anwendung ruft automatisch Filminformationen von OMDb ab
+Der Film wird dem Nutzer hinzugefügt
+Sicherheit
+Die .env Datei enthält sensible Informationen (API-Key) und sollte nicht ins Repository gepusht werden.
+Füge daher .env in deine .gitignore Datei ein:
+.env
+
+Beispiel
+Nutzer: Max
+Film hinzufügen: Inception
+Die App ruft automatisch Daten ab:
+Titel
+Regisseur
+Erscheinungsjahr
+Poster
