@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="section-header">
+        <h2>Lieblingsfilme</h2>
+        <p>Verwalte hier die Filme eines einzelnen Nutzers.</p>
+    </div>
+
+    <div class="card form-card">
+        <h3>Neuen Film hinzufügen</h3>
+        <form action="{{ url_for('add_movie', user_id=user_id) }}" method="post" class="inline-form">
+            <input type="text" name="name" placeholder="Filmtitel eingeben" required>
+            <button type="submit">Film hinzufügen</button>
+        </form>
+    </div>
+</section>
+
+<section class="page-section">
+    <div class="top-actions">
+        <a class="back-link" href="{{ url_for('index') }}">← Zurück zur Startseite</a>
+    </div>
+
+    {% if movies %}
+        <div class="movie-page-grid">
+            {% for movie in movies %}
+                <article class="card movie-page-card">
+                    <div class="movie-poster large-poster">
+                        {% if movie.poster_url %}
+                            <img src="{{ movie.poster_url }}" alt="{{ movie.name }}">
+                        {% else %}
+                            <div class="poster-placeholder">Kein Poster</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="movie-info">
+                        <h3>{{ movie.name }}</h3>
+                        <p><strong>Regisseur:</strong> {{ movie.director or "Unbekannt" }}</p>
+                        <p><strong>Jahr:</strong> {{ movie.year or "N/A" }}</p>
+
+                        <div class="movie-actions stacked-actions">
+                            <form action="{{ url_for('update_movie', user_id=user_id, movie_id=movie.id) }}" method="post" class="inline-form">
+                                <input type="text" name="new_title" placeholder="Neuer Titel" required>
+                                <button type="submit">Titel ändern</button>
+                            </form>
+
+                            <form action="{{ url_for('delete_movie', user_id=user_id, movie_id=movie.id) }}" method="post">
+                                <button type="submit" class="danger-button">Film löschen</button>
+                            </form>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card empty-card">
+            <h3>Keine Filme vorhanden</h3>
+            <p>Füge oben einen Film hinzu.</p>
+        </div>
+    {% endif %}
+</section>
+
+{% endblock %}

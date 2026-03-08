@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoviWeb App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <div>
+                <h1 class="logo">MoviWeb</h1>
+                <p class="subtitle">Verwalte Nutzer und Lieblingsfilme</p>
+            </div>
+
+            <nav class="nav">
+                <a href="{{ url_for('index') }}">Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-wrapper">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

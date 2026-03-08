@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="section-header">
+        <h2>Nutzer</h2>
+        <p>Hier siehst du alle Nutzer und ihre gespeicherten Lieblingsfilme.</p>
+    </div>
+
+    <div class="card form-card">
+        <h3>Neuen Nutzer hinzufügen</h3>
+        <form action="{{ url_for('create_user') }}" method="post" class="stack-form">
+            <input type="text" name="name" placeholder="Name eingeben" required>
+            <button type="submit">Nutzer hinzufügen</button>
+        </form>
+    </div>
+</section>
+
+<section class="page-section">
+    {% if users %}
+        <div class="user-grid">
+            {% for user in users %}
+                <article class="card user-card">
+                    <div class="user-card-header">
+                        <div>
+                            <h3>{{ user.name }}</h3>
+                            <p class="muted">ID: {{ user.id }}</p>
+                        </div>
+
+                        <form action="{{ url_for('delete_user', user_id=user.id) }}" method="post">
+                            <button type="submit" class="danger-button">User löschen</button>
+                        </form>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="movie-add-box">
+                        <h4>Lieblingsfilm hinzufügen</h4>
+                        <form action="{{ url_for('add_movie', user_id=user.id) }}" method="post" class="inline-form">
+                            <input type="text" name="name" placeholder="Filmtitel eingeben" required>
+                            <button type="submit">Film hinzufügen</button>
+                        </form>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="movie-list-box">
+                        <h4>Lieblingsfilme</h4>
+
+                        {% if user.movies %}
+                            <div class="movie-list">
+                                {% for movie in user.movies %}
+                                    <div class="movie-item">
+                                        <div class="movie-poster">
+                                            {% if movie.poster_url %}
+                                                <img src="{{ movie.poster_url }}" alt="{{ movie.name }}">
+                                            {% else %}
+                                                <div class="poster-placeholder">Kein Poster</div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="movie-info">
+                                            <h5>{{ movie.name }}</h5>
+                                            <p><strong>Regisseur:</strong> {{ movie.director or "Unbekannt" }}</p>
+                                            <p><strong>Jahr:</strong> {{ movie.year or "N/A" }}</p>
+
+                                            <div class="movie-actions">
+                                                <form action="{{ url_for('update_movie', user_id=user.id, movie_id=movie.id) }}" method="post" class="inline-form">
+                                                    <input type="text" name="new_title" placeholder="Neuer Titel" required>
+                                                    <button type="submit">Aktualisieren</button>
+                                                </form>
+
+                                                <form action="{{ url_for('delete_movie', user_id=user.id, movie_id=movie.id) }}" method="post">
+                                                    <button type="submit" class="danger-button">Film löschen</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="empty-state">Keine Lieblingsfilme gespeichert.</p>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card empty-card">
+            <h3>Noch keine Nutzer vorhanden</h3>
+            <p>Lege oben deinen ersten Nutzer an.</p>
+        </div>
+    {% endif %}
+</section>
+
+{% endblock %}
